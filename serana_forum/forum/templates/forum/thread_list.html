@@ -1,0 +1,74 @@
+<!-- forum/templates/forum/thread_list.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форум Штаты Серана</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #2c5f7c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .thread {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .thread h2 {
+            margin: 0 0 10px 0;
+        }
+        .thread h2 a {
+            color: #2c5f7c;
+            text-decoration: none;
+        }
+        .thread h2 a:hover {
+            text-decoration: underline;
+        }
+        .thread-meta {
+            color: #666;
+            font-size: 14px;
+        }
+        .pinned {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Форум Штаты Серана</h1>
+        <p>Добро пожаловать в наше сообщество!</p>
+    </header>
+
+    <main>
+        {% for thread in threads %}
+        <div class="thread {% if thread.is_pinned %}pinned{% endif %}">
+            <h2>
+                {% if thread.is_pinned %} {% endif %}
+                <a href="{% url 'forum:thread_detail' thread.id %}">{{ thread.title }}</a>
+            </h2>
+            <div class="thread-meta">
+                Автор: {{ thread.author.username }} |
+                Дата: {{ thread.created_at|date:"d.m.Y H:i" }}
+            </div>
+        </div>
+        {% empty %}
+        <p>Пока нет ни одной темы. Будь первым!</p>
+        {% endfor %}
+    </main>
+</body>
+</html>
